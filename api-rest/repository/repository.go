@@ -5,16 +5,17 @@ import (
 	"server/models"
 )
 
-type UserRepository interface {
+type Repository interface {
 	CreateUser(ctx context.Context, user *models.User) error
 	GetUserById(ctx context.Context, id string) (*models.User, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
+	CreatePost(ctx context.Context, post *models.Post) error
 	Close() error
 }
 
-var implementation UserRepository
+var implementation Repository
 
-func SetRepository(repository UserRepository) {
+func SetRepository(repository Repository) {
 	implementation = repository
 }
 
@@ -34,3 +35,6 @@ func Close() error {
 	return implementation.Close()
 }
 
+func CreatePost(ctx context.Context, post *models.Post) error {
+	return implementation.CreatePost(ctx, post)
+}
